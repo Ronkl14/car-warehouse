@@ -1,25 +1,25 @@
-import { DataTypes } from 'sequelize';
+const { DataTypes } = require("sequelize");
+const sequelize = require("../database");
 
-export default (sequelize) => {
-  const Model = sequelize.define(
-    'Model',
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+const Model = sequelize.define(
+  "Model",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    { tableName: 'Models' }
-  );
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  { timestamps: false },
+  { tableName: "Models" }
+);
 
-  Model.associate = (models) => {
-    Model.hasMany(models.Car, { foreignKey: 'model_id', as: 'cars' });
-  };
-
-  return Model;
+Model.associate = (models) => {
+  Model.hasMany(models.Car, { foreignKey: "model_id", as: "cars" });
 };
+
+module.exports = Model; // No need for a function wrapper here
