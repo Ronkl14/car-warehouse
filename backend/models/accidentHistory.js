@@ -21,13 +21,15 @@ const AccidentHistory = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    cost: {
+    costs: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
   },
-  { timestamps: false },
-  { tableName: "AccidentHistory" }
+  {
+    timestamps: false,
+    tableName: "AccidentHistory",
+  }
 );
 
 AccidentHistory.associate = (models) => {

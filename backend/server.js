@@ -1,10 +1,8 @@
-// Import required modules
 const express = require("express");
 const dotenv = require("dotenv");
-const sequelize = require("./database")
 const db = require("./models")
-const carRoutes = require("./routes/carRoutes")
-
+const carRoutes = require("./routes/carRoutes");
+const AccidentHistoryRoutes = require("./routes/accidentHistoryRoutes")
 dotenv.config({ path: "../.env" });
 
 const app = express();
@@ -14,6 +12,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 app.use('/api/cars', carRoutes);
+app.use('/api/accidents', AccidentHistoryRoutes)
 
 db.sequelize
   .authenticate()
@@ -23,11 +22,6 @@ db.sequelize
   .catch((error) => {
     console.error("Unable to connect to the database:", error);
   });
-
-
-app.get("/", (req, res) => {
-  res.send("Hello, your server is running!");
-});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

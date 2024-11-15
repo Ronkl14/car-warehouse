@@ -3,7 +3,6 @@ const dotenv = require("dotenv");
 
 dotenv.config({ path: "../.env" });
 
-// Create a Sequelize instance and configure it with your database info
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -14,7 +13,7 @@ const sequelize = new Sequelize(
     logging: false,
     dialectOptions: {
       options: {
-        encrypt: false, // Use this if you're connecting to Azure, set to false if not
+        encrypt: false, 
       },
     },
   }

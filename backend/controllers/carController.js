@@ -1,4 +1,4 @@
-const { Car, Model } = require("../models"); // Ensure Model is imported too
+const { Car, Model } = require("../models");
 
 exports.getAllCars = async (req, res) => {
   try {
