@@ -1,20 +1,20 @@
-import { DataTypes } from 'sequelize';
+const { DataTypes } = require("sequelize");
+const sequelize = require("../database");
 
-export default (sequelize) => {
-  const CarFeature = sequelize.define(
-    'CarFeature',
-    {
-      car_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-      },
-      feature_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-      },
+const CarFeature = sequelize.define(
+  "CarFeature",
+  {
+    car_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
     },
-    { tableName: 'CarFeatures', timestamps: false }
-  );
+    feature_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+  },
+  { timestamps: false },
+  { tableName: "CarFeatures" }
+);
 
-  return CarFeature;
-};
+module.exports = CarFeature;

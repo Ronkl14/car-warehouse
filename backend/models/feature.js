@@ -1,29 +1,29 @@
-import { DataTypes } from 'sequelize';
+const { DataTypes } = require("sequelize");
+const sequelize = require("../database");
 
-export default (sequelize) => {
-  const Feature = sequelize.define(
-    'Feature',
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+const Feature = sequelize.define(
+  "Feature",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    { tableName: 'Features' }
-  );
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  { timestamps: false },
+  { tableName: "Features" }
+);
 
-  Feature.associate = (models) => {
-    Feature.belongsToMany(models.Car, {
-      through: models.CarFeature,
-      foreignKey: 'feature_id',
-      as: 'cars',
-    });
-  };
-
-  return Feature;
+Feature.associate = (models) => {
+  Feature.belongsToMany(models.Car, {
+    through: models.CarFeature,
+    foreignKey: "feature_id",
+    as: "cars",
+  });
 };
+
+module.exports = Feature;

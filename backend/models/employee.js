@@ -1,30 +1,30 @@
-import { DataTypes } from "sequelize";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../database");
 
-export default (sequelize) => {
-  const Employee = sequelize.define(
-    "Employee",
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      position: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
+const Employee = sequelize.define(
+  "Employee",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    { tableName: "Employees" }
-  );
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    position: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+  },
+  { timestamps: false },
+  { tableName: "Employees" }
+);
 
-  return Employee;
-};
+module.exports = Employee;

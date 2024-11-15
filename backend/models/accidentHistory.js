@@ -26,6 +26,7 @@ const AccidentHistory = sequelize.define(
       allowNull: false,
     },
   },
+  { timestamps: false },
   { tableName: "AccidentHistory" }
 );
 
