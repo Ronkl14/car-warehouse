@@ -5,7 +5,6 @@ const sequelize = require("../database");
 
 const db = {};
 
-// Dynamically load all model files
 fs.readdirSync(__dirname)
   .filter((file) => file !== "index.js" && file.endsWith(".js"))
   .forEach((file) => {
@@ -13,7 +12,6 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
-// Call associate on each model if defined
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
