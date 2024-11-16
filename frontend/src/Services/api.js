@@ -73,3 +73,30 @@ export async function getAllEmployees() {
     console.error("Error fetching data:", error);
   }
 }
+
+export async function createEmployee(employeeData) {
+  try {
+    const response = await axios.post(`${END_POINT}/employees`, employeeData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating data:", error);
+  }
+}
+
+export async function updateEmployee(employeeData, id) {
+  try {
+    const response = await axios.put(`${END_POINT}/employees/${id}`, employeeData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating data:", error);
+  }
+}
+
+export async function deleteEmployee(id) {
+  try {
+    const response = await axios.delete(`${END_POINT}/employees/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting data:", error);
+  }
+}

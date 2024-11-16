@@ -1,46 +1,43 @@
 import { useState, useEffect } from "react";
-import { getAllEmployees } from "../../Services/api";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedEmployee, showModal } from "../../store/slices/uiSlice";
 import { Card, Button } from "antd";
 import EmployeeDashboardButtons from "./EmployeeDashboardButtons";
+import { fetchEmployees } from "../../store/slices/employeesSlice";
+import CreateEmployee from "./CreateEmployee";
 
 const EmployeeDashboard = () => {
-  const [employees, setEmployees] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const employeeList = await getAllEmployees();
-      setEmployees(employeeList);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.employees);
+  const employeesStatus = useSelector((state) => state.employees.status);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (employeesStatus === "idle") {
+      dispatch(fetchEmployees());
+    }
+  }, [employeesStatus, dispatch]);
+
+  const handleCreateEmployee = () => {
+    dispatch(setSelectedEmployee(null));
+    dispatch(showModal("showCreateEmployeeModal"));
+  };
 
   return (
     <div>
-      <Button
-        type="primary"
-        // onClick={() => handleShowCreateCarModal(null)}
-      >
+      <Button type="primary" onClick={handleCreateEmployee}>
         Create New Employee
       </Button>
       {employees.map((employee) => (
         <Card
+          key={employee.id}
           className="card"
           title={`${employee.first_name} ${employee.last_name}`}
         >
-          <p>Starting Date: {employee.starting_date.split('T')[0]}</p>
-          <EmployeeDashboardButtons
-      // car={car}
-      // handleShowCreateCarModal={handleShowCreateCarModal}
-      // handleShowCreateAccidentModal={handleShowCreateAccidentModal}
-      // fetchData={fetchData}
-    />
+          <p>Starting Date: {employee.starting_date.split("T")[0]}</p>
+          <EmployeeDashboardButtons employee={employee} />
         </Card>
       ))}
+      <CreateEmployee />
     </div>
   );
 };

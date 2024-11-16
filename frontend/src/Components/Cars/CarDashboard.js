@@ -82,7 +82,6 @@ const CarDashboard = () => {
           <CarDashBoardButtons car={car} />
         </Card>
       ))}
-      ;
       <CarAccidentModal />
       <CreateCar />
       <CreateAccident />
