@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCars } from "../../store/slices/carsSlice.js";
 import { Form, Modal, Select, Input, Checkbox, Button, message } from "antd";
 import { createCar, updateCar } from "../../Services/api"
 
 const CreateCar = ({
   showCreateCarModal,
   setShowCreateCarModal,
-  features,
-  models,
   car,
-  fetchData,
 }) => {
+  const dispatch = useDispatch()
+
+  const staticData = useSelector((state) => state.staticData);
+
   const [form] = Form.useForm();
   const [featureIds, setFeatureIds] = useState([]);
   const [shouldCreateNewCar, setShouldCreateNewCar] = useState();
@@ -69,7 +72,7 @@ const CreateCar = ({
           content: "Car Updated Successfully",
         });
       }
-      fetchData();
+      dispatch(fetchCars())
       setShowCreateCarModal(false);
     } catch (error) {
       console.log("error creating car", error);
@@ -92,7 +95,7 @@ const CreateCar = ({
             rules={[{ required: true, message: "Please select model" }]}
           >
             <Select
-              options={models.map((model) => ({
+              options={staticData.models.map((model) => ({
                 value: model.id,
                 label: `${model.manufacturer} ${model.name}`,
               }))}
@@ -120,7 +123,7 @@ const CreateCar = ({
             <Input />
           </Form.Item>
           <Form.Item label="Features">
-            {features.map((feature) => (
+            {staticData.features.map((feature) => (
               <Checkbox
                 value={feature.id}
                 onChange={(e) => {

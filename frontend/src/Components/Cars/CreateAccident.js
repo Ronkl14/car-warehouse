@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCars } from "../../store/slices/carsSlice";
 import { Form, Modal, Input, Button, message } from "antd";
 import { createAccident } from "../../Services/api";
 
@@ -6,8 +8,9 @@ const CreateAccident = ({
   showCreateAccidentModal,
   setShowCreateAccidentModal,
   car,
-  fetchData
 }) => {
+  const dispatch = useDispatch()
+
   const [form] = Form.useForm();
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -33,7 +36,7 @@ const CreateAccident = ({
         type: "success",
         content: "Accident Created Successfully",
       });
-      fetchData()
+      dispatch(fetchCars())
       setShowCreateAccidentModal(false)
     } catch (error) {}
   };

@@ -1,7 +1,8 @@
 import "./App.css";
 import { ConfigProvider } from "antd";
-import CarDashboard from "./Components/Cars/CarDashboard";
 import AppRoutes from "./routes/AppRoutes";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const customTheme = {
   token: {
@@ -18,7 +19,9 @@ const customTheme = {
 function App() {
   return (
     <ConfigProvider theme={customTheme}>
-      <AppRoutes/>
+      <Provider store={store}>
+        <AppRoutes />
+      </Provider>
     </ConfigProvider>
   );
 }

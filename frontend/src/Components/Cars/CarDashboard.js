@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  getAllCars,
-  getAllFeatures,
-  getAllModels,
-} from "../../Services/api.js";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCars } from "../../store/slices/carsSlice.js";
+import { fetchStaticData } from "../../store/slices/staticDataSlice";
 import { Card, Button } from "antd";
 import { CheckOutlined, WarningOutlined } from "@ant-design/icons";
 import CarDashBoardButtons from "./CarDashBoardButtons.js";
@@ -12,34 +10,27 @@ import CreateCar from "./CreateCar.js";
 import CreateAccident from "./CreateAccident.js";
 
 const CarDashboard = () => {
-  const [cars, setCars] = useState([]);
-  const [features, setFeatures] = useState([]);
-  const [models, setModels] = useState([]);
   const [showAccidentModal, setShowAccidentModal] = useState(false);
   const [showCreateCarModal, setShowCreateCarModal] = useState(false);
   const [showCreateAccidentModal, setShowCreateAccidentModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      const carList = await getAllCars();
-      const modelList = await getAllModels();
-      const featureList = await getAllFeatures();
-      setCars(carList);
-      setModels(modelList);
-      setFeatures(featureList);
-    } catch (err) {
-      console.log(err);
+  const dispatch = useDispatch();
+  const cars = useSelector((state) => state.cars.cars);
+  const carStatus = useSelector((state) => state.cars.status);
+  const staticData = useSelector((state) => state.staticData);
+
+  useEffect(() => {
+    if (carStatus === "idle") {
+      dispatch(fetchCars());
     }
-  };
+  }, [carStatus, dispatch]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    console.log(cars);
-  }, [cars]);
+    if (staticData.status === "idle") {
+      dispatch(fetchStaticData());
+    }
+  }, [staticData.status, dispatch]);
 
   const handleShowAccidentModal = (car) => {
     setSelectedCar(car);
@@ -62,7 +53,10 @@ const CarDashboard = () => {
         Create New Car
       </Button>
       {cars.map((car) => (
-        <Card className="card" title={`${car.model.manufacturer} ${car.model.name} ${car.year}`}>
+        <Card
+          className="card"
+          title={`${car.model.manufacturer} ${car.model.name} ${car.year}`}
+        >
           <p>Mileage: {car.mileage} Km</p>
           <p>Price: {car.price}$</p>
           <p>
@@ -100,7 +94,6 @@ const CarDashboard = () => {
             car={car}
             handleShowCreateCarModal={handleShowCreateCarModal}
             handleShowCreateAccidentModal={handleShowCreateAccidentModal}
-            fetchData={fetchData}
           />
         </Card>
       ))}
@@ -113,16 +106,12 @@ const CarDashboard = () => {
       <CreateCar
         showCreateCarModal={showCreateCarModal}
         setShowCreateCarModal={setShowCreateCarModal}
-        features={features}
-        models={models}
         car={selectedCar}
-        fetchData={fetchData}
       />
       <CreateAccident
         showCreateAccidentModal={showCreateAccidentModal}
         setShowCreateAccidentModal={setShowCreateAccidentModal}
         car={selectedCar}
-        fetchData={fetchData}
       />
     </div>
   );
