@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCars } from "../../store/slices/carsSlice.js";
 import { fetchStaticData } from "../../store/slices/staticDataSlice";
+import { setSelectedCar, showModal } from "../../store/slices/uiSlice";
 import { Card, Button } from "antd";
 import { CheckOutlined, WarningOutlined } from "@ant-design/icons";
 import CarDashBoardButtons from "./CarDashBoardButtons.js";
@@ -10,11 +11,6 @@ import CreateCar from "./CreateCar.js";
 import CreateAccident from "./CreateAccident.js";
 
 const CarDashboard = () => {
-  const [showAccidentModal, setShowAccidentModal] = useState(false);
-  const [showCreateCarModal, setShowCreateCarModal] = useState(false);
-  const [showCreateAccidentModal, setShowCreateAccidentModal] = useState(false);
-  const [selectedCar, setSelectedCar] = useState(null);
-
   const dispatch = useDispatch();
   const cars = useSelector((state) => state.cars.cars);
   const carStatus = useSelector((state) => state.cars.status);
@@ -32,24 +28,19 @@ const CarDashboard = () => {
     }
   }, [staticData.status, dispatch]);
 
-  const handleShowAccidentModal = (car) => {
-    setSelectedCar(car);
-    setShowAccidentModal(true);
+  const handleCreateCar = () => {
+    dispatch(setSelectedCar(null));
+    dispatch(showModal("showCreateCarModal"));
   };
 
-  const handleShowCreateCarModal = (car) => {
-    setSelectedCar(car);
-    setShowCreateCarModal(true);
-  };
-
-  const handleShowCreateAccidentModal = (car) => {
-    setSelectedCar(car);
-    setShowCreateAccidentModal(true);
+  const handleShowAccidents = (car) => {
+    dispatch(setSelectedCar(car));
+    dispatch(showModal("showAccidentModal"));
   };
 
   return (
     <div>
-      <Button type="primary" onClick={() => handleShowCreateCarModal(null)}>
+      <Button type="primary" onClick={handleCreateCar}>
         Create New Car
       </Button>
       {cars.map((car) => (
@@ -77,10 +68,7 @@ const CarDashboard = () => {
             {car.accidents.length ? (
               <span>
                 <WarningOutlined className="danger" />
-                <Button
-                  type="link"
-                  onClick={() => handleShowAccidentModal(car)}
-                >
+                <Button type="link" onClick={() => handleShowAccidents(car)}>
                   Show accident reports
                 </Button>
               </span>
@@ -90,29 +78,13 @@ const CarDashboard = () => {
               </span>
             )}
           </p>
-          <CarDashBoardButtons
-            car={car}
-            handleShowCreateCarModal={handleShowCreateCarModal}
-            handleShowCreateAccidentModal={handleShowCreateAccidentModal}
-          />
+          <CarDashBoardButtons car={car} />
         </Card>
       ))}
       ;
-      <CarAccidentModal
-        car={selectedCar}
-        showAccidentModal={showAccidentModal}
-        setShowAccidentModal={setShowAccidentModal}
-      />
-      <CreateCar
-        showCreateCarModal={showCreateCarModal}
-        setShowCreateCarModal={setShowCreateCarModal}
-        car={selectedCar}
-      />
-      <CreateAccident
-        showCreateAccidentModal={showCreateAccidentModal}
-        setShowCreateAccidentModal={setShowCreateAccidentModal}
-        car={selectedCar}
-      />
+      <CarAccidentModal />
+      <CreateCar />
+      <CreateAccident />
     </div>
   );
 };

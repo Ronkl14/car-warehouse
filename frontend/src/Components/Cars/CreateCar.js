@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCars } from "../../store/slices/carsSlice.js";
+import { hideModal } from "../../store/slices/uiSlice.js";
 import { Form, Modal, Select, Input, Checkbox, Button, message } from "antd";
-import { createCar, updateCar } from "../../Services/api"
+import { createCar, updateCar } from "../../Services/api";
 
-const CreateCar = ({
-  showCreateCarModal,
-  setShowCreateCarModal,
-  car,
-}) => {
-  const dispatch = useDispatch()
-
+const CreateCar = () => {
+  const dispatch = useDispatch();
+  const { selectedCar, modals } = useSelector((state) => state.ui);
   const staticData = useSelector((state) => state.staticData);
 
   const [form] = Form.useForm();
@@ -20,26 +17,21 @@ const CreateCar = ({
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    if (car) {
+    if (selectedCar) {
       form.setFieldsValue({
-        model_id: car.model_id,
-        year: car.year,
-        mileage: car.mileage,
-        price: car.price,
+        model_id: selectedCar.model_id,
+        year: selectedCar.year,
+        mileage: selectedCar.mileage,
+        price: selectedCar.price,
       });
-      setFeatureIds(car.features.map((feature) => feature.id));
+      setFeatureIds(selectedCar.features.map((feature) => feature.id));
       setShouldCreateNewCar(false);
     } else {
-      form.setFieldsValue({
-        model_id: null,
-        year: null,
-        mileage: null,
-        price: null,
-      });
+      form.resetFields();
       setFeatureIds([]);
       setShouldCreateNewCar(true);
     }
-  }, [car, form]);
+  }, [selectedCar, form]);
 
   const handleFeatureIds = (e) => {
     const checked = e.target.checked;
@@ -66,14 +58,14 @@ const CreateCar = ({
           content: "Car Created Successfully",
         });
       } else {
-        await updateCar(carData, car.id);
+        await updateCar(carData, selectedCar.id);
         messageApi.open({
           type: "success",
           content: "Car Updated Successfully",
         });
       }
-      dispatch(fetchCars())
-      setShowCreateCarModal(false);
+      dispatch(fetchCars());
+      dispatch(hideModal("showCreateCarModal"));
     } catch (error) {
       console.log("error creating car", error);
     }
@@ -83,9 +75,9 @@ const CreateCar = ({
     <>
       {contextHolder}
       <Modal
-        open={showCreateCarModal}
+        open={modals.showCreateCarModal}
         footer={null}
-        onCancel={() => setShowCreateCarModal(false)}
+        onCancel={() => dispatch(hideModal("showCreateCarModal"))}
       >
         <h3>Create New Car</h3>
         <Form form={form} onFinish={handleSubmit}>
