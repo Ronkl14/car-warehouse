@@ -1,6 +1,7 @@
 import "./App.css";
 import { ConfigProvider } from "antd";
-import CarDashboard from "./Components/CarDashboard";
+import CarDashboard from "./Components/Cars/CarDashboard";
+import AppRoutes from "./routes/AppRoutes";
 
 const customTheme = {
   token: {
@@ -17,7 +18,7 @@ const customTheme = {
 function App() {
   return (
     <ConfigProvider theme={customTheme}>
-      <CarDashboard />
+      <AppRoutes/>
     </ConfigProvider>
   );
 }

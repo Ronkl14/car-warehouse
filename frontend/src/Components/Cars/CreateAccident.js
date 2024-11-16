@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Modal, Input, Button, message } from "antd";
-import { createAccident } from "../Services/api";
+import { createAccident } from "../../Services/api";
 
 const CreateAccident = ({
   showCreateAccidentModal,

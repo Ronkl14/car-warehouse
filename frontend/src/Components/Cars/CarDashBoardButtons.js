@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, message } from "antd";
-import { deleteCar } from "../Services/api";
+import { deleteCar } from "../../Services/api";
 
 const CarDashBoardButtons = ({ car, handleShowCreateCarModal, fetchData, handleShowCreateAccidentModal }) => {
   const [messageApi, contextHolder] = message.useMessage();
