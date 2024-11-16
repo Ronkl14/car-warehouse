@@ -9,6 +9,10 @@ const Model = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    manufacturer: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -22,4 +26,4 @@ Model.associate = (models) => {
   Model.hasMany(models.Car, { foreignKey: "model_id", as: "cars" });
 };
 
-module.exports = Model; // No need for a function wrapper here
+module.exports = Model;

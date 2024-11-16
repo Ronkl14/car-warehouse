@@ -15,3 +15,16 @@
 .features-label {
   margin-right: 10px;
 }
+
+.good {
+  color: green
+}
+
+.danger {
+  color: red
+}
+
+.car-action-buttons {
+  display: flex;
+  gap: 5px
+}

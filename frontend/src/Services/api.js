@@ -11,3 +11,20 @@ export async function getAllCars() {
   }
 }
 
+export async function getAllModels() {
+  try {
+    const response = await axios.get(`${END_POINT}/models`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+export async function getAllFeatures() {
+  try {
+    const response = await axios.get(`${END_POINT}/features`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
