@@ -14,20 +14,20 @@ const CarDashboard = () => {
   const [showCreateCarModal, setShowCreateCarModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const carList = await getAllCars();
-        const modelList = await getAllModels();
-        const featureList = await getAllFeatures();
-        setCars(carList);
-        setModels(modelList);
-        setFeatures(featureList);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const carList = await getAllCars();
+      const modelList = await getAllModels();
+      const featureList = await getAllFeatures();
+      setCars(carList);
+      setModels(modelList);
+      setFeatures(featureList);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -88,6 +88,7 @@ const CarDashboard = () => {
           <CarDashBoardButtons
             car={car}
             handleShowCreateCarModal={handleShowCreateCarModal}
+            fetchData={fetchData}
           />
         </Card>
       ))}
@@ -103,6 +104,7 @@ const CarDashboard = () => {
         features={features}
         models={models}
         car={selectedCar}
+        fetchData={fetchData}
       />
     </div>
   );

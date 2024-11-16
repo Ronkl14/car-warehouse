@@ -8,6 +8,7 @@ const CreateCar = ({
   features,
   models,
   car,
+  fetchData
 }) => {
   const [form] = Form.useForm();
   const [featureIds, setFeatureIds] = useState([]);
@@ -42,8 +43,6 @@ const CreateCar = ({
     setFeatureIds((prev) =>
       checked ? [...prev, value] : prev.filter((id) => id !== value)
     );
-
-    console.log(featureIds)
   };
 
   const handleSubmit = async (values) => {
@@ -61,6 +60,7 @@ const CreateCar = ({
       else {
         await updateCar(carData, car.id)
       }
+      fetchData()
       setShowCreateCarModal(false);
     } catch (error) {
       console.log("error creating car", error);

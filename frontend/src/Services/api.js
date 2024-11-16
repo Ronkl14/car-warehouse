@@ -43,6 +43,15 @@ export async function updateCar(carData, id) {
     const response = await axios.put(`${END_POINT}/cars/${id}`, carData);
     return response.data;
   } catch (error) {
-    console.error("Error creating data:", error);
+    console.error("Error updating data:", error);
+  }
+}
+
+export async function deleteCar(id) {
+  try {
+    const response = await axios.delete(`${END_POINT}/cars/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting data:", error);
   }
 }
