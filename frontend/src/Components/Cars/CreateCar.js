@@ -96,21 +96,39 @@ const CreateCar = () => {
           <Form.Item
             label="Year"
             name="year"
-            rules={[{ required: true, message: "Please enter year" }]}
+            rules={[
+              { required: true, message: "Please enter year" },
+              {
+                pattern: /^\d{4}$/,
+                message: "Year must be a 4-digit number",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Mileage"
             name="mileage"
-            rules={[{ required: true, message: "Please enter price" }]}
+            rules={[
+              { required: true, message: "Please enter price" },
+              {
+                pattern: /^\d+$/,
+                message: "Only numbers are allowed",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: true, message: "Please enter price" }]}
+            rules={[
+              { required: true, message: "Please enter price" },
+              {
+                pattern: /^\d+$/,
+                message: "Only numbers are allowed",
+              },
+            ]}
           >
             <Input />
           </Form.Item>

@@ -48,7 +48,13 @@ const CreateAccident = () => {
           <Form.Item
             label="Date"
             name="date"
-            rules={[{ required: true, message: "Please enter date" }]}
+            rules={[
+              { required: true, message: "Please enter date" },
+              {
+                pattern: /^\d{4}-\d{2}-\d{2}$/,
+                message: "Date must be in the format yyyy-mm-dd",
+              },
+            ]}
           >
             <Input placeholder="yyyy-mm-dd" />
           </Form.Item>
@@ -62,7 +68,13 @@ const CreateAccident = () => {
           <Form.Item
             label="Cost"
             name="cost"
-            rules={[{ required: true, message: "Please enter cost" }]}
+            rules={[
+              { required: true, message: "Please enter cost" },
+              {
+                pattern: /^\d+$/,
+                message: "Only numbers are allowed",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
