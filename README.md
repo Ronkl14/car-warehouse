@@ -37,11 +37,14 @@ Installation Steps
 6. Seed the database
    ```
    sequelize db:seed:all
-7. Install frontend dependencies
+7. Start the server
+   ```
+   node server.js
+8. Install frontend dependencies
    ```
    cd ..
    cd frontend
    npm install
-8. Start the frontend application
+9. Start the frontend application
    ```
    npm start
