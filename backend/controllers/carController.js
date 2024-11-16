@@ -11,8 +11,8 @@ exports.getAllCars = async (req, res) => {
         },
         {
           model: Feature,
-          as: "features", 
-          attributes: ["id", "name"], 
+          as: "features",
+          attributes: ["id", "name"],
           through: { attributes: [] },
         },
         {
@@ -42,8 +42,23 @@ exports.getCarById = async (req, res) => {
 
 exports.createCar = async (req, res) => {
   try {
-    const { model_id, year, price, mileage } = req.body;
+    const { model_id, year, price, mileage, feature_ids } = req.body;
+
+    if (feature_ids) {
+      const features = await Feature.findAll({
+        where: { id: feature_ids },
+      });
+      if (features.length !== feature_ids.length) {
+        return res.status(400).json({ message: "Invalid feature IDs" });
+      }
+    }
+
     const car = await Car.create({ model_id, year, price, mileage });
+
+    if (feature_ids && feature_ids.length > 0) {
+      await car.setFeatures(feature_ids);
+    }
+
     res.status(201).json(car);
   } catch (error) {
     res.status(500).json({ message: "Error creating car", error });
@@ -56,9 +71,28 @@ exports.updateCar = async (req, res) => {
     if (!car) {
       return res.status(404).json({ message: "Car not found" });
     }
-    const { name, model, year, price } = req.body;
-    await car.update({ name, model, year, price });
-    res.status(200).json(car);
+
+    const { model_id, year, price, mileage, feature_ids } = req.body;
+
+    if (feature_ids) {
+      const features = await Feature.findAll({
+        where: { id: feature_ids },
+      });
+
+      if (features.length !== feature_ids.length) {
+        return res.status(400).json({ message: "Invalid feature IDs" });
+      }
+
+      await car.setFeatures(feature_ids);
+    }
+
+    await car.update({ model_id, year, price, mileage });
+
+    const updatedCar = await Car.findByPk(req.params.id, {
+      include: [{ model: Feature, as: "features" }],
+    });
+
+    res.status(200).json(updatedCar);
   } catch (error) {
     res.status(500).json({ message: "Error updating car", error });
   }

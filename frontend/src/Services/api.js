@@ -28,3 +28,21 @@ export async function getAllFeatures() {
     console.error("Error fetching data:", error);
   }
 }
+
+export async function createCar(carData) {
+  try {
+    const response = await axios.post(`${END_POINT}/cars`, carData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating data:", error);
+  }
+}
+
+export async function updateCar(carData, id) {
+  try {
+    const response = await axios.put(`${END_POINT}/cars/${id}`, carData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating data:", error);
+  }
+}

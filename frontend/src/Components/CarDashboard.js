@@ -11,7 +11,7 @@ const CarDashboard = () => {
   const [features, setFeatures] = useState([]);
   const [models, setModels] = useState([]);
   const [showAccidentModal, setShowAccidentModal] = useState(false);
-  const [showCreateCarModal, setShowCreateCarModal] = useState(true);
+  const [showCreateCarModal, setShowCreateCarModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
 
   useEffect(() => {
@@ -40,38 +40,58 @@ const CarDashboard = () => {
     setShowAccidentModal(true);
   };
 
-  return cars.map((car) => (
-    <Card title={`${car.model.manufacturer} ${car.model.name} ${car.year}`}>
-      <p>Mileage: {car.mileage} Km</p>
-      <p>Price: {car.price}$</p>
-      <p>
-        <span className="features-label">Features:</span>
-        {car.features.length ? (
-          <ul className="inline-bullet-list">
-            {car.features.map((feature, index) => (
-              <li key={index} className="inline-bullet-item">
-                ✪ {feature.name}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          "-"
-        )}
-      </p>
-      <p>
-        {car.accidents.length ? (
-          <span>
-            <WarningOutlined className="danger" />
-            <Button type="link" onClick={() => handleShowAccidentModal(car)}>
-              Show accident reports
-            </Button>
-          </span>
-        ) : (
-          <span>
-            <CheckOutlined className="good" /> No Accident Reports
-          </span>
-        )}
-      </p>
+  const handleShowCreateCarModal = (car) => {
+    setSelectedCar(car);
+    setShowCreateCarModal(true);
+  };
+
+  return (
+    <div>
+      <Button onClick={() => handleShowCreateCarModal(null)}>
+        Create New Car
+      </Button>
+      {cars.map((car) => (
+        <Card title={`${car.model.manufacturer} ${car.model.name} ${car.year}`}>
+          <p>Mileage: {car.mileage} Km</p>
+          <p>Price: {car.price}$</p>
+          <p>
+            <span className="features-label">Features:</span>
+            {car.features.length ? (
+              <ul className="inline-bullet-list">
+                {car.features.map((feature, index) => (
+                  <li key={index} className="inline-bullet-item">
+                    ✪ {feature.name}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              "-"
+            )}
+          </p>
+          <p>
+            {car.accidents.length ? (
+              <span>
+                <WarningOutlined className="danger" />
+                <Button
+                  type="link"
+                  onClick={() => handleShowAccidentModal(car)}
+                >
+                  Show accident reports
+                </Button>
+              </span>
+            ) : (
+              <span>
+                <CheckOutlined className="good" /> No Accident Reports
+              </span>
+            )}
+          </p>
+          <CarDashBoardButtons
+            car={car}
+            handleShowCreateCarModal={handleShowCreateCarModal}
+          />
+        </Card>
+      ))}
+      ;
       <CarAccidentModal
         car={selectedCar}
         showAccidentModal={showAccidentModal}
@@ -80,10 +100,12 @@ const CarDashboard = () => {
       <CreateCar
         showCreateCarModal={showCreateCarModal}
         setShowCreateCarModal={setShowCreateCarModal}
+        features={features}
+        models={models}
+        car={selectedCar}
       />
-      <CarDashBoardButtons carId={car.id} cars={cars} />
-    </Card>
-  ));
+    </div>
+  );
 };
 
 export default CarDashboard;

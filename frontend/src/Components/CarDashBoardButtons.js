@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "antd";
 
-const CarDashBoardButtons = ({ carId, cars }) => {
+const CarDashBoardButtons = ({ car, handleShowCreateCarModal }) => {
   return (
     <div className="car-action-buttons">
-      <Button type="primary">Edit</Button>
+      <Button type="primary" onClick={() => handleShowCreateCarModal(car)}>Edit</Button>
       <Button danger type="primary">
         Report Accident
       </Button>
