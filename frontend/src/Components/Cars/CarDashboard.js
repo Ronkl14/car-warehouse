@@ -45,6 +45,7 @@ const CarDashboard = () => {
       </Button>
       {cars.map((car) => (
         <Card
+          key={car.id}
           className="card"
           title={`${car.model.manufacturer} ${car.model.name} ${car.year}`}
         >
@@ -54,8 +55,8 @@ const CarDashboard = () => {
             <span className="features-label">Features:</span>
             {car.features.length ? (
               <ul className="inline-bullet-list">
-                {car.features.map((feature, index) => (
-                  <li key={index} className="inline-bullet-item">
+                {car.features.map((feature) => (
+                  <li key={feature.id} className="inline-bullet-item">
                     ✪ {feature.name}
                   </li>
                 ))}

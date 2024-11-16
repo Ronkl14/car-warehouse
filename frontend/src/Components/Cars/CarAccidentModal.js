@@ -13,7 +13,6 @@ const CarAccidentModal = () => {
       (acc, curr) => (acc += curr.costs),
       0
     );
-    console.log(totalCost);
     setTotalCost(totalCost);
   }, [selectedCar]);
 
@@ -35,8 +34,8 @@ const CarAccidentModal = () => {
         {selectedCar?.model.name} {selectedCar?.year}
       </h3>
       <ul>
-        {selectedCar?.accidents.map((accident, index) => (
-          <li key={index}>
+        {selectedCar?.accidents.map((accident) => (
+          <li key={accident.id}>
             <p>Date: {accident.date.split("T")[0]}</p>
             <p>Description: {accident.description}</p>
             <p>Cost: {accident.costs}$</p>

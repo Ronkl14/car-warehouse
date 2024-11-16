@@ -88,6 +88,7 @@ const CreateCar = () => {
           >
             <Select
               options={staticData.models.map((model) => ({
+                key: model.id,
                 value: model.id,
                 label: `${model.manufacturer} ${model.name}`,
               }))}
@@ -135,6 +136,7 @@ const CreateCar = () => {
           <Form.Item label="Features">
             {staticData.features.map((feature) => (
               <Checkbox
+                key={feature.id}
                 value={feature.id}
                 onChange={(e) => {
                   handleFeatureIds(e);
