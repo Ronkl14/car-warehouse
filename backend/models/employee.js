@@ -9,22 +9,23 @@ const Employee = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    position: {
+    last_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING,
+    starting_date: {
+      type: DataTypes.DATE,
       allowNull: false,
-      unique: true,
     },
   },
-  { timestamps: false },
-  { tableName: "Employees" }
+  {
+    timestamps: false,
+    tableName: "Employee",
+  }
 );
 
 module.exports = Employee;
