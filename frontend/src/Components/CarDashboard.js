@@ -5,6 +5,7 @@ import { CheckOutlined, WarningOutlined } from "@ant-design/icons";
 import CarDashBoardButtons from "./CarDashBoardButtons.js";
 import CarAccidentModal from "./CarAccidentModal.js";
 import CreateCar from "./CreateCar.js";
+import CreateAccident from "./CreateAccident.js";
 
 const CarDashboard = () => {
   const [cars, setCars] = useState([]);
@@ -12,6 +13,7 @@ const CarDashboard = () => {
   const [models, setModels] = useState([]);
   const [showAccidentModal, setShowAccidentModal] = useState(false);
   const [showCreateCarModal, setShowCreateCarModal] = useState(false);
+  const [showCreateAccidentModal, setShowCreateAccidentModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
 
   const fetchData = async () => {
@@ -44,6 +46,11 @@ const CarDashboard = () => {
     setSelectedCar(car);
     setShowCreateCarModal(true);
   };
+
+  const handleShowCreateAccidentModal = (car) => {
+    setSelectedCar(car)
+    setShowCreateAccidentModal(true)
+  }
 
   return (
     <div>
@@ -88,6 +95,7 @@ const CarDashboard = () => {
           <CarDashBoardButtons
             car={car}
             handleShowCreateCarModal={handleShowCreateCarModal}
+            handleShowCreateAccidentModal={handleShowCreateAccidentModal}
             fetchData={fetchData}
           />
         </Card>
@@ -103,6 +111,12 @@ const CarDashboard = () => {
         setShowCreateCarModal={setShowCreateCarModal}
         features={features}
         models={models}
+        car={selectedCar}
+        fetchData={fetchData}
+      />
+      <CreateAccident
+        showCreateAccidentModal={showCreateAccidentModal}
+        setShowCreateAccidentModal={setShowCreateAccidentModal}
         car={selectedCar}
         fetchData={fetchData}
       />

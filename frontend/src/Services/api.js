@@ -55,3 +55,12 @@ export async function deleteCar(id) {
     console.error("Error deleting data:", error);
   }
 }
+
+export async function createAccident(accidentData) {
+  try {
+    const response = await axios.post(`${END_POINT}/accidents`, accidentData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating data:", error);
+  }
+}

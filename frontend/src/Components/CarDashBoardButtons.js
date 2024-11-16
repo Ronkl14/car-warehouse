@@ -1,25 +1,34 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { deleteCar } from "../Services/api";
 
-const CarDashBoardButtons = ({ car, handleShowCreateCarModal, fetchData }) => {
+const CarDashBoardButtons = ({ car, handleShowCreateCarModal, fetchData, handleShowCreateAccidentModal }) => {
+  const [messageApi, contextHolder] = message.useMessage();
+
   const handleDeleteCar = async () => {
     await deleteCar(car.id);
-    await fetchData()
+    await fetchData();
+    messageApi.open({
+      type: "success",
+      content: "Car Deleted Successfully",
+    });
   };
 
   return (
-    <div className="car-action-buttons">
-      <Button type="primary" onClick={() => handleShowCreateCarModal(car)}>
-        Edit
-      </Button>
-      <Button danger type="primary">
-        Report Accident
-      </Button>
-      <Button danger type="primary" onClick={handleDeleteCar}>
-        Delete Car
-      </Button>
-    </div>
+    <>
+      {contextHolder}
+      <div className="car-action-buttons">
+        <Button type="primary" onClick={() => handleShowCreateCarModal(car)}>
+          Edit
+        </Button>
+        <Button danger type="primary" onClick={() => handleShowCreateAccidentModal(car)}>
+          Report Accident
+        </Button>
+        <Button danger type="primary" onClick={handleDeleteCar}>
+          Delete Car
+        </Button>
+      </div>
+    </>
   );
 };
 
