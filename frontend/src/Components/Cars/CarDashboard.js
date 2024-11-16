@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { getAllCars, getAllFeatures, getAllModels } from "../../Services/api.js";
+import {
+  getAllCars,
+  getAllFeatures,
+  getAllModels,
+} from "../../Services/api.js";
 import { Card, Button } from "antd";
 import { CheckOutlined, WarningOutlined } from "@ant-design/icons";
 import CarDashBoardButtons from "./CarDashBoardButtons.js";
@@ -48,17 +52,17 @@ const CarDashboard = () => {
   };
 
   const handleShowCreateAccidentModal = (car) => {
-    setSelectedCar(car)
-    setShowCreateAccidentModal(true)
-  }
+    setSelectedCar(car);
+    setShowCreateAccidentModal(true);
+  };
 
   return (
     <div>
-      <Button onClick={() => handleShowCreateCarModal(null)}>
+      <Button type="primary" onClick={() => handleShowCreateCarModal(null)}>
         Create New Car
       </Button>
       {cars.map((car) => (
-        <Card title={`${car.model.manufacturer} ${car.model.name} ${car.year}`}>
+        <Card className="card" title={`${car.model.manufacturer} ${car.model.name} ${car.year}`}>
           <p>Mileage: {car.mileage} Km</p>
           <p>Price: {car.price}$</p>
           <p>

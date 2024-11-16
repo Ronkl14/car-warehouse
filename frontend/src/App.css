@@ -28,3 +28,8 @@
   display: flex;
   gap: 5px
 }
+
+.card {
+  border-color: black;
+  margin: 1rem 0 1rem 0
+}

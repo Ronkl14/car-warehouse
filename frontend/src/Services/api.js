@@ -64,3 +64,12 @@ export async function createAccident(accidentData) {
     console.error("Error creating data:", error);
   }
 }
+
+export async function getAllEmployees() {
+  try {
+    const response = await axios.get(`${END_POINT}/employees`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
