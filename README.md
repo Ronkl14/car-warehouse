@@ -34,10 +34,10 @@ Installation Steps
    npm install
 5. Run database migrations
    ```
-   npx sequelize-cli db:migrate
+   npx sequelize db:migrate
 6. Seed the database
    ```
-   npx sequelize-cli db:seed:all
+   npx sequelize db:seed:all
 7. Start the server
    ```
    node server.js
