@@ -31,7 +31,13 @@ const Car = sequelize.define(
 );
 
 Car.associate = (models) => {
+  Car.belongsToMany(models.Feature, {
+    through: models.CarFeature,
+    foreignKey: "car_id",
+    as: "features",
+  });
   Car.belongsTo(models.Model, { foreignKey: "model_id", as: "model" });
+  Car.hasMany(models.AccidentHistory, { foreignKey: "car_id", as: "accidents" });
 };
 
-module.exports = Car; // No need for a function wrapper here
+module.exports = Car;

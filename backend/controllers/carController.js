@@ -1,8 +1,27 @@
-const { Car, Model } = require("../models");
+const { Car, Model, Feature, AccidentHistory } = require("../models");
 
 exports.getAllCars = async (req, res) => {
   try {
-    const cars = await Car.findAll({});
+    const cars = await Car.findAll({
+      include: [
+        {
+          model: Model,
+          as: "model",
+          attributes: ["id", "manufacturer", "name"],
+        },
+        {
+          model: Feature,
+          as: "features", 
+          attributes: ["id", "name"], 
+          through: { attributes: [] },
+        },
+        {
+          model: AccidentHistory,
+          attributes: ["id", "date", "description", "costs"],
+          as: "accidents",
+        },
+      ],
+    });
     res.status(200).json(cars);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving cars", error });
