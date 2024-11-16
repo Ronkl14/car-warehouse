@@ -4,6 +4,7 @@ Installation Steps
    ```
    git clone https://github.com/Ronkl14/car-warehouse.git
    cd car-warehouse
+   code
 2.  - Create a .env file in the root directory if it doesn't exist.
     - Add or update your database credentials in the .env file:
       
